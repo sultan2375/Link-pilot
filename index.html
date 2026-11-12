@@ -294,7 +294,7 @@ nav{
   <div class="info-row"><span>Watched Today</span><b id="daily-ads">0</b></div>
   <div class="info-row"><span>Daily Limit</span><b>10,000</b></div>
   <div class="info-row"><span>Reward per Ad</span><b>Server verified</b></div>
-  <div class="info-row"><span>Current Balance</span><b><span id="task-balance">0.00</span> BDT</b></div>
+  <div class="info-row"><span>Current Balance</span><b><span id="task-balance">0.00</span> USDT</b></div>
  </div>
  <p style="color:var(--muted);font-size:11px">Ad availability and rewards depend on the advertising provider and server verification.</p>
 </section>
@@ -309,11 +309,11 @@ nav{
 
  <div class="balance-card">
   <small>AVAILABLE BALANCE</small>
-  <h1><span id="withdraw-balance">0.00</span> <span class="currency">BDT</span></h1>
+  <h1><span id="withdraw-balance">0.00</span> <span class="currency">USDT</span></h1>
  </div>
 
  <div class="panel" style="margin-top:15px">
-  <div class="info-row"><span>Minimum Withdrawal</span><b>20 BDT</b></div>
+  <div class="info-row"><span>Minimum Withdrawal</span><b>1 USDT</b></div>
   <div class="info-row"><span>Minimum Referrals</span><b>5</b></div>
   <div class="info-row"><span>Your Referrals</span><b id="ref-count">0</b></div>
  </div>
@@ -323,19 +323,19 @@ nav{
    <label>Payment Method</label>
    <select id="withdraw-method">
     <option value="">Select Method</option>
-    <option>Bkash</option>
-    <option>Nagad</option>
-    <option>Rocket</option>
+    <option>PayPal</option>
+    <option>ByBit</option>
+    <option>WebMony</option>
     <option>Binance</option>
    </select>
   </div>
   <div class="input-group">
    <label>Account Number / Wallet</label>
-   <input id="account-number" placeholder="Enter your account">
+   <input id="Wallet-address" placeholder="Enter your account">
   </div>
   <div class="input-group">
-   <label>Withdrawal Amount (BDT)</label>
-   <input id="withdraw-amount" type="number" min="20" placeholder="Enter amount">
+   <label>Withdrawal Amount (USDT)</label>
+   <input id="withdraw-amount" type="number" min="1" placeholder="Enter amount">
   </div>
   <button class="primary" id="withdraw-btn" onclick="requestWithdraw()">
    <i class="fas fa-paper-plane"></i> Request Withdrawal
@@ -407,7 +407,7 @@ nav{
 const API_BASE = ""; // Example: https://your-api.example.com
 
 const DAILY_LIMIT = 10000;
-const MIN_WITHDRAW = 20;
+const MIN_WITHDRAW = 1;
 const MIN_REFERRALS = 5;
 
 const tg = window.Telegram?.WebApp;
@@ -478,7 +478,7 @@ function updateUI(){
  }else{
   state.history.forEach(item=>{
    const tr=document.createElement("tr");
-   [item.date,item.type,item.amount.toFixed(2)+" BDT"].forEach(value=>{
+   [item.date,item.type,item.amount.toFixed(2)+" USDT"].forEach(value=>{
     const td=document.createElement("td");
     td.textContent=value;
     tr.appendChild(td);
@@ -602,13 +602,13 @@ function stopAuto(){
 // Withdraw request
 async function requestWithdraw(){
  const method=$("withdraw-method").value;
- const account=$("account-number").value.trim();
+ const account=$("Wallet-address").value.trim();
  const amount=Number($("withdraw-amount").value);
 
  if(!method)return notify("Please select a payment method.");
- if(!account)return notify("Please enter your account number.");
+ if(!account)return notify("Please enter your Wallet address.");
  if(!Number.isFinite(amount)||amount<MIN_WITHDRAW)
-  return notify("Minimum withdrawal is 20 BDT.");
+  return notify("Minimum withdrawal is 1 USDT.");
  if(amount>state.balance)
   return notify("Insufficient balance.");
  if(state.referrals<MIN_REFERRALS)
@@ -623,7 +623,7 @@ async function requestWithdraw(){
    method,account,amount
   });
   await loadAccount();
-  $("account-number").value="";
+  $("Wallet-address").value="";
   $("withdraw-amount").value="";
   notify(result.message||"Withdrawal request submitted.");
  }catch(e){
