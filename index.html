@@ -1,330 +1,653 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080d1c"><title>Link Pilot — USDC Rewards</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#080d1b">
+<title>Link Pilot - Premium Rewards</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
-<!-- Monetag: paste the exact SDK script tag copied from your Monetag dashboard here. Keep data-zone="12241372" and data-sdk="show_12241372". -->
+<script src="https://libtl.com/sdk.js" data-zone="12241372" data-sdk="show_12241372"></script>
+
 <style>
-:root{--bg:#080d1c;--panel:#111a2d;--panel2:#17233a;--line:#25334d;--text:#f4f7ff;--muted:#91a1bd;--blue:#5b8cff;--cyan:#47d7e8;--green:#35d49a;--red:#ff7185}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#15294a 0,transparent 38%),var(--bg);color:var(--text);font:15px Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;border:0}.app{max-width:520px;margin:auto;padding:18px 16px 100px}.top{display:flex;align-items:center;justify-content:space-between;margin:8px 0 22px}.brand{display:flex;gap:10px;align-items:center;font-weight:850;font-size:19px;letter-spacing:-.5px}.logo{height:40px;width:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(140deg,#5b8cff,#3bd7e6);color:#071426;font-weight:1000;box-shadow:0 8px 25px #3c9cff44}.pill{font-size:11px;color:#9deee1;border:1px solid #24695f;background:#10352f;padding:7px 10px;border-radius:30px}.hero{padding:22px;border:1px solid #314666;border-radius:25px;background:linear-gradient(135deg,#1b3154,#111d35 70%);box-shadow:0 20px 50px #0004;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-80px;top:-85px;background:#4ed9ed22;filter:blur(2px)}.eyebrow{color:#9db3d4;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}.balance{font-size:36px;font-weight:850;letter-spacing:-1.5px;margin:9px 0 4px}.balance small{font-size:14px;color:#a8bce0;letter-spacing:0}.sub{color:var(--muted);font-size:12px}.actions{display:flex;gap:10px;margin-top:20px}.btn{border-radius:13px;padding:12px 16px;font-weight:750;background:linear-gradient(110deg,var(--blue),var(--cyan));color:#071426;box-shadow:0 7px 20px #448eff2b}.btn.secondary{background:#263956;color:#e7f0ff;box-shadow:none;border:1px solid #405574}.btn:disabled{opacity:.45;cursor:not-allowed}.section{margin:24px 0 12px;display:flex;justify-content:space-between;align-items:center}.section h2{font-size:16px;margin:0}.section span{font-size:11px;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tile,.panel{border:1px solid var(--line);background:linear-gradient(150deg,#142039,#10182a);border-radius:18px;padding:16px}.tile .ico{font-size:20px}.tile strong{display:block;font-size:18px;margin:9px 0 3px}.tile small{color:var(--muted)}.task{display:flex;align-items:center;gap:13px}.task .ico{height:42px;width:42px;border-radius:14px;background:#243b5d;display:grid;place-items:center;font-size:20px}.task .grow{flex:1}.task strong{font-size:14px}.task small{display:block;color:var(--muted);margin-top:4px;font-size:11px}.task+.task{margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}.page{display:none}.page.active{display:block}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:10px 10px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);background:#0d1526ee;backdrop-filter:blur(18px);border-top:1px solid #293955;z-index:5}.nav button{background:none;color:#8293af;font-size:10px;padding:6px 2px}.nav button b{display:block;font-size:19px;margin-bottom:3px}.nav button.active{color:#6ee4eb}.field{width:100%;border:1px solid #31425e;background:#0c1527;color:white;padding:13px;border-radius:12px;margin:8px 0 14px;outline:none}.field:focus{border-color:#5b8cff}.label{font-size:12px;color:#aebbd1}.wide{width:100%}.muted{color:var(--muted);font-size:12px;line-height:1.6}.notice{padding:12px;border-radius:12px;background:#342c1b;border:1px solid #6a5528;color:#f2d99a;font-size:12px;line-height:1.5;margin:12px 0}.status{font-size:12px;margin-top:12px;color:#9deee1;min-height:18px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.listitem{padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}.listitem:last-child{border:0}.empty{padding:22px;text-align:center;color:var(--muted);font-size:13px}.tag{font-size:10px;border-radius:20px;padding:4px 8px;background:#263957;color:#b9cfff}.hidden{display:none!important}a{color:#79c9ff}
-
-/* ===== Link Pilot animated premium refresh ===== */
 :root{
- --bg:#070916;--panel:#11172c;--panel2:#171f3a;--line:rgba(151,174,255,.16);
- --text:#f7f8ff;--muted:#9ba8c7;--blue:#7968ff;--cyan:#43e2e6;--green:#43e0ad;
+ --bg:#080d1b;
+ --card:#111a2d;
+ --card2:#17233a;
+ --blue:#387bff;
+ --cyan:#25d9ed;
+ --text:#f4f7ff;
+ --muted:#8492ac;
+ --green:#35d69a;
+ --border:rgba(255,255,255,.07);
 }
+*{box-sizing:border-box}
 body{
- background:
-  radial-gradient(ellipse at 12% 8%,rgba(92,91,255,.22),transparent 34%),
-  radial-gradient(ellipse at 92% 28%,rgba(34,212,223,.13),transparent 30%),
-  linear-gradient(160deg,#080b1b,#090e20 55%,#080a17);
- background-attachment:fixed;
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:'Nunito',sans-serif;
+ padding-bottom:95px;
 }
-body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(2px);opacity:.45}
-body:before{width:230px;height:230px;left:-135px;top:38%;background:radial-gradient(circle,#665cff55,transparent 70%);animation:ambientFloat 11s ease-in-out infinite}
-body:after{width:280px;height:280px;right:-170px;top:68%;background:radial-gradient(circle,#26dbe044,transparent 70%);animation:ambientFloat 14s ease-in-out infinite reverse}
-.app{padding-top:20px}
-.top{animation:fadeDown .65s both}
-.logo{position:relative;overflow:hidden;border-radius:15px;background:linear-gradient(135deg,#8c76ff,#4c9dff 55%,#38e0df);box-shadow:0 0 28px #746bff66,inset 0 1px 0 #ffffff80;animation:logoPulse 3.5s ease-in-out infinite}
-.logo:after{content:"";position:absolute;inset:-60% auto -60% -35%;width:40%;transform:rotate(25deg);background:#ffffff80;filter:blur(7px);animation:logoShine 4s ease-in-out infinite}
-.brand{letter-spacing:.3px}
-.pill{background:#102e31;border-color:#286b6d;box-shadow:0 0 18px #24d5cb18}
-.hero{
- isolation:isolate;padding:25px 22px 22px;border:1px solid rgba(143,159,255,.34);
- border-radius:27px;background:linear-gradient(135deg,rgba(40,48,101,.96),rgba(17,30,60,.96) 58%,rgba(13,47,69,.96));
- box-shadow:0 22px 60px #0006,0 0 38px #5d69ff18,inset 0 1px 0 #ffffff20;
- animation:cardRise .7s .08s both;
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:520px;margin:auto;min-height:100vh;overflow:hidden}
+header{
+ padding:20px 19px 15px;display:flex;
+ align-items:center;justify-content:space-between;
 }
-.hero:before{content:"";position:absolute;z-index:-1;width:240px;height:240px;right:-95px;top:-115px;border-radius:50%;border:1px solid #a8a6ff35;box-shadow:0 0 0 22px #9b9cff0a,0 0 0 48px #9b9cff08,0 0 60px #5c9dff55;animation:orbitGlow 8s linear infinite}
-.hero:after{width:170px;height:170px;right:-55px;top:15px;background:radial-gradient(circle,#48e1e644,transparent 70%);filter:blur(8px);animation:orbPulse 4s ease-in-out infinite}
-.eyebrow{letter-spacing:1.8px;color:#b7c9ff}
-.balance{font-size:clamp(34px,9vw,43px);text-shadow:0 0 28px #7d91ff45;animation:numberGlow 4s ease-in-out infinite}
-.balance small{font-weight:700}
-.actions .btn{min-width:112px}
-.btn{position:relative;overflow:hidden;border-radius:14px;background:linear-gradient(110deg,#8b72ff,#55aaff 55%,#45e0df);box-shadow:0 8px 24px #5e7aff35;transition:transform .2s,filter .2s,box-shadow .2s}
-.btn:before{content:"";position:absolute;top:-60%;left:-70%;width:45%;height:220%;background:#ffffff55;transform:rotate(25deg);transition:left .55s}
-.btn:hover:before{left:130%}.btn:active{transform:scale(.96);filter:brightness(1.12)}
-.btn.secondary{background:linear-gradient(135deg,#26345a,#1c3550);border:1px solid #536b9d;box-shadow:inset 0 1px 0 #ffffff14}
-.section{margin-top:27px;animation:fadeUp .55s both}
-.section h2{font-size:16px;letter-spacing:.15px}
-.grid{gap:11px}
-.tile,.panel{
- position:relative;overflow:hidden;border:1px solid rgba(147,169,255,.17);
- background:linear-gradient(145deg,rgba(24,34,64,.93),rgba(13,21,42,.96));
- border-radius:19px;box-shadow:0 12px 28px #0002,inset 0 1px 0 #ffffff0a;
- transition:transform .25s,border-color .25s,box-shadow .25s;
+.brand{display:flex;align-items:center;gap:11px}
+.logo{
+ width:43px;height:43px;border-radius:14px;
+ display:grid;place-items:center;
+ background:linear-gradient(135deg,#397aff,#19d8e9);
+ font-size:21px;box-shadow:0 5px 22px #217aff55;
 }
-.tile{animation:cardRise .6s both}
-.tile:nth-child(2){animation-delay:.08s}.tile:nth-child(3){animation-delay:.16s}.tile:nth-child(4){animation-delay:.24s}
-.tile:after,.panel:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 20%,#ffffff08 48%,transparent 70%);transform:translateX(-120%);animation:panelShimmer 7s ease-in-out infinite}
-.tile:hover{transform:translateY(-4px);border-color:#6f82ff66;box-shadow:0 15px 30px #0004,0 0 20px #667aff14}
-.tile .ico{display:inline-grid;place-items:center;width:39px;height:39px;border-radius:13px;background:linear-gradient(145deg,#3c4d87,#1e3b58);box-shadow:inset 0 1px 0 #ffffff22}
-.tile strong{font-size:20px;letter-spacing:-.4px}
-.tile small{font-size:11px}
-.task .ico{background:linear-gradient(145deg,#354783,#174b5d);box-shadow:0 5px 18px #3d86ff20}
-.task strong{letter-spacing:.1px}
-.task .btn{padding:10px 14px}
-.nav{border-top:1px solid #788dcb33;background:rgba(9,14,31,.88);box-shadow:0 -12px 35px #0004}
-.nav button{transition:color .2s,transform .2s}
-.nav button b{transition:transform .25s;text-shadow:0 0 15px currentColor}
-.nav button.active{color:#6ce8e4}.nav button.active b{transform:translateY(-3px) scale(1.12)}
-.field{background:rgba(8,15,32,.8);border-color:#43537b88;transition:border-color .2s,box-shadow .2s}
-.field:focus{border-color:#7f86ff;box-shadow:0 0 0 3px #7477ff22}
-.notice{background:linear-gradient(110deg,#332d1d,#26233a);border-color:#77633a;color:#f5dfa5}
-.page.active{animation:pageIn .38s ease both}
-.listitem{animation:fadeUp .35s both}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes cardRise{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes pageIn{from{opacity:.45;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-@keyframes ambientFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(25px,-22px,0)}}
-@keyframes logoPulse{0%,100%{box-shadow:0 0 18px #746bff55,inset 0 1px 0 #ffffff80}50%{box-shadow:0 0 32px #36dbe477,inset 0 1px 0 #ffffffa0}}
-@keyframes logoShine{0%,30%{left:-50%}65%,100%{left:140%}}
-@keyframes orbitGlow{to{transform:rotate(360deg)}}
-@keyframes orbPulse{0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
-@keyframes numberGlow{0%,100%{text-shadow:0 0 16px #7d91ff25}50%{text-shadow:0 0 27px #66cfff66}}
-@keyframes panelShimmer{0%,65%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
-
-
-/* ===== Link Pilot animated premium redesign ===== */
-:root{
- --bg:#080817;--panel:#14142b;--panel2:#1c1c39;--line:#34345c;
- --text:#f7f5ff;--muted:#aaa8c8;--blue:#8b5cf6;--cyan:#22d3ee;
- --green:#45e0ad;--red:#ff7185;--pink:#ec4899;
+.brand h2{font-size:19px;margin:0;font-weight:900}
+.brand small{color:var(--muted);font-size:11px}
+.profile{
+ width:42px;height:42px;border-radius:50%;
+ background:#1b2c49;border:1px solid #344a6b;
+ display:grid;place-items:center;color:var(--cyan);
 }
-body{
- background:
-  radial-gradient(ellipse at 12% 8%,#5b21b633 0,transparent 34%),
-  radial-gradient(ellipse at 90% 18%,#0e749033 0,transparent 30%),
-  radial-gradient(ellipse at 50% 100%,#7c3aed18 0,transparent 40%),var(--bg);
- background-size:160% 160%;animation:bgDrift 18s ease-in-out infinite alternate;
+.page{display:none;padding:10px 19px 25px;animation:fade .25s}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.greeting{margin:10px 0 20px}
+.greeting small{color:var(--muted)}
+.greeting h2{font-size:24px;margin:4px 0;font-weight:900}
+.greeting p{color:var(--muted);font-size:13px;margin:0}
+
+.balance-card{
+ position:relative;overflow:hidden;padding:23px;
+ border-radius:23px;
+ background:linear-gradient(125deg,#174fbd,#276fff 55%,#13b9cf);
+ box-shadow:0 12px 35px #1260ff30;
 }
-@keyframes bgDrift{0%{background-position:0% 0%,100% 0%,50% 100%}100%{background-position:30% 20%,70% 35%,40% 80%}}
-.app{position:relative}
-.app:before,.app:after{content:"";position:fixed;z-index:-1;width:220px;height:220px;border-radius:50%;filter:blur(70px);opacity:.23;pointer-events:none;animation:orbFloat 12s ease-in-out infinite alternate}
-.app:before{background:#8b5cf6;top:15%;left:-120px}.app:after{background:#06b6d4;right:-120px;bottom:12%;animation-delay:-5s}
-@keyframes orbFloat{from{transform:translate3d(0,-18px,0) scale(.9)}to{transform:translate3d(35px,25px,0) scale(1.2)}}
-.top{animation:dropIn .65s cubic-bezier(.2,.8,.2,1) both}
-@keyframes dropIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
-.logo{background:linear-gradient(135deg,#a78bfa,#22d3ee);box-shadow:0 0 24px #8b5cf655,0 0 45px #22d3ee22;animation:logoPulse 3s ease-in-out infinite}
-@keyframes logoPulse{50%{box-shadow:0 0 32px #8b5cf688,0 0 60px #22d3ee44}}
-.pill{background:#182d3a;border-color:#287c83;color:#8df3eb;box-shadow:0 0 18px #22d3ee16}
-.hero{background:linear-gradient(135deg,#30205c 0%,#1b1d49 52%,#123a4a 100%);border:1px solid #6551a5;box-shadow:0 22px 65px #0007,0 0 35px #8b5cf622;animation:heroIn .8s .08s both;isolation:isolate}
-.hero:before{content:"";position:absolute;inset:-80% -30%;z-index:-1;background:linear-gradient(110deg,transparent 40%,#ffffff12 50%,transparent 60%);transform:translateX(-60%) rotate(12deg);animation:shine 7s ease-in-out infinite}
-@keyframes shine{0%,55%{transform:translateX(-65%) rotate(12deg)}85%,100%{transform:translateX(65%) rotate(12deg)}}
-@keyframes heroIn{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-.balance{background:linear-gradient(90deg,#fff,#c4b5fd 45%,#67e8f9);background-clip:text;-webkit-background-clip:text;color:transparent;text-shadow:0 8px 30px #8b5cf633}
-.btn{background:linear-gradient(110deg,#a78bfa,#22d3ee);color:#0b1025;box-shadow:0 8px 24px #8b5cf633;transition:transform .2s,box-shadow .2s,filter .2s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px #8b5cf655;filter:saturate(1.15)}
-.btn:active{transform:scale(.97)}
-.btn.secondary{background:linear-gradient(135deg,#29264e,#1d3850);color:#e9e6ff;border:1px solid #575184;box-shadow:none}
-.tile,.panel{background:linear-gradient(145deg,#1a1a38dd,#11182ddd);border-color:#39365f;box-shadow:0 12px 30px #0003;backdrop-filter:blur(12px);transition:transform .25s,border-color .25s,box-shadow .25s}
-.tile:hover,.panel:hover{transform:translateY(-3px);border-color:#7162b8;box-shadow:0 16px 36px #0005,0 0 22px #8b5cf614}
-.tile .ico,.task .ico{background:linear-gradient(145deg,#3a2d70,#16475a);border:1px solid #5e5497;box-shadow:inset 0 1px #ffffff18,0 6px 18px #0003}
-.section{animation:fadeUp .45s both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.nav{background:#111127ed;border-top:1px solid #3a3763;box-shadow:0 -12px 35px #0005;backdrop-filter:blur(22px)}
-.nav button{transition:color .2s,transform .2s}
-.nav button.active{color:#67e8f9;text-shadow:0 0 15px #22d3ee77}
-.nav button.active b{transform:translateY(-2px);display:block}
-.field{background:#0d1025;border-color:#3a3763}
-.field:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #8b5cf622}
-.notice{background:#34294a;border-color:#7755a5;color:#e5d6ff}
-.status{color:#80f1d1}
-.page.active{animation:pageIn .3s ease both}
-@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
-
-
-/* Reference-inspired Link Pilot wallet: black + royal violet */
-:root{--bg:#05040b;--panel:#100d20;--panel2:#18122d;--line:#34245d;--text:#faf8ff;--muted:#a7a0bc;--blue:#8b5cf6;--cyan:#c4a5ff;--green:#54e4bb;--pink:#c084fc}
-body{background:#05040b;color:var(--text);background-image:radial-gradient(ellipse at 50% -15%,#5522a855,transparent 42%),radial-gradient(ellipse at 100% 45%,#32105b22,transparent 38%);background-attachment:fixed}
-.app{max-width:520px;padding:17px 16px 105px}
-.top{display:none}
-.wallet-head{display:flex;align-items:center;justify-content:space-between;margin:8px 0 23px}
-.wallet-brand{display:flex;align-items:center;gap:11px}.wallet-brand b{display:block;font-size:15px;letter-spacing:1.2px}.wallet-brand small{display:block;color:#a49bbd;font-size:10px;margin-top:3px;letter-spacing:.4px}
-.logo{width:39px;height:39px;border-radius:14px;background:linear-gradient(145deg,#a855f7,#5424bb 60%,#d8b4fe);color:white;box-shadow:0 0 24px #9333ea77;font-size:15px}
-.head-icons{display:flex;gap:9px}.head-icons button{width:37px;height:37px;border-radius:13px;background:#171127;border:1px solid #39265e;color:#e9d5ff;font-size:17px}
-.wallet-card{position:relative;overflow:hidden;border-radius:25px;padding:21px 20px 18px;background:linear-gradient(125deg,#291052 0%,#4b1a91 45%,#24104a 100%);border:1px solid #9254db;box-shadow:0 16px 45px #4c1d9566,inset 0 1px #ffffff2c;min-height:165px;animation:walletEnter .65s cubic-bezier(.2,.8,.2,1) both}
-.wallet-card:before{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-70px;top:-130px;background:#c084fc33;filter:blur(5px)}
-.wallet-card:after{content:"";position:absolute;width:190px;height:190px;border:1px solid #ffffff15;border-radius:50%;right:-25px;bottom:-145px;box-shadow:0 0 0 17px #ffffff08,0 0 0 35px #ffffff06}
-.wallet-card-top,.wallet-card-bottom{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}.wallet-card-top{font-size:10px;font-weight:800;letter-spacing:1.2px;color:#e9d5ff}
-.network-chip{font-size:9px;letter-spacing:.3px;background:#ffffff20;border:1px solid #ffffff2c;padding:6px 9px;border-radius:20px}
-.wallet-balance{position:relative;z-index:1;margin:22px 0 17px;font-size:34px;font-weight:850;letter-spacing:-1px;text-shadow:0 4px 20px #12052466;display:flex;align-items:baseline;gap:8px}.wallet-balance small{font-size:13px;color:#e9d5ff;letter-spacing:.4px}
-.wallet-card-bottom{font-size:10px;color:#dfc9ff}.coin-mark{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:#ffffff24;border:1px solid #ffffff55;font-size:17px;color:white}
-.card-glow{position:absolute;width:120px;height:120px;border-radius:50%;background:#d8b4fe22;filter:blur(22px);left:42%;bottom:-90px}
-@keyframes walletEnter{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
-.wallet-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:19px 0 25px}
-.wallet-actions button{background:transparent;color:#e8e1f5;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10px}
-.wallet-actions i{font-style:normal;width:47px;height:47px;border-radius:17px;display:grid;place-items:center;font-size:21px;color:#e9d5ff;background:linear-gradient(145deg,#28134a,#171126);border:1px solid #56348a;box-shadow:inset 0 1px #ffffff18,0 8px 20px #0005;transition:.2s}
-.wallet-actions button:active i{transform:scale(.92);background:linear-gradient(145deg,#7e22ce,#4c1d95)}
-.wallet-section-head{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 12px}.wallet-section-head h2{font-size:15px;margin:0;letter-spacing:.2px}.wallet-section-head span{font-size:10px;color:#c4a5ff}
-.asset-list{background:linear-gradient(145deg,#151126,#0e0b18);border:1px solid #302344;border-radius:20px;padding:3px 14px;box-shadow:0 12px 30px #0004}
-.asset-row{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid #2a203a}.asset-row:last-child{border-bottom:0}
-.asset-icon{width:39px;height:39px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:800}
-.asset-icon.usdc{background:linear-gradient(145deg,#2775d8,#123a83);color:#fff}.asset-icon.ads{background:linear-gradient(145deg,#7c3aed,#3b176b);color:#fff}.asset-icon.refs{background:linear-gradient(145deg,#c026d3,#701a75);color:#fff}
-.asset-name{flex:1;min-width:0}.asset-name b,.asset-amount b{display:block;font-size:12px}.asset-name small,.asset-amount small{display:block;color:#9b91ae;font-size:10px;margin-top:4px}.asset-amount{text-align:right}.asset-amount b{font-variant-numeric:tabular-nums}
-.earn-banner{position:relative;overflow:hidden;min-height:145px;padding:17px;border-radius:21px;background:linear-gradient(115deg,#27104c,#5b21b6 60%,#28104a);border:1px solid #7944bb;box-shadow:0 12px 30px #4c1d9533;display:flex;justify-content:space-between}
-.earn-banner>div:first-child{display:flex;flex-direction:column;align-items:flex-start;position:relative;z-index:2}.earn-banner small{font-size:9px;letter-spacing:1.3px;color:#e9d5ff}.earn-banner b{font-size:19px;margin:7px 0 3px}.earn-banner span{font-size:10px;color:#e3d1ff}.earn-banner button{margin-top:14px;padding:9px 13px;border-radius:20px;background:#090611;color:white;border:1px solid #a78bfa;font-size:10px;box-shadow:0 4px 15px #0005}
-.earn-art{width:120px;position:relative;display:grid;place-items:center}.earn-orb{width:57px;height:57px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#e9d5ff,#7c3aed 65%,#3b0764);color:#fff;font-size:20px;box-shadow:0 0 30px #c084fc99,0 12px 25px #08020f99;z-index:2;animation:orbBob 3s ease-in-out infinite}
-.orbit{position:absolute;width:90px;height:90px;border:1px solid #e9d5ff55;border-radius:50%;transform:rotateX(65deg)}.orbit-two{width:112px;height:112px;border-color:#e9d5ff33;transform:rotateY(65deg) rotateX(65deg)}
-@keyframes orbBob{50%{transform:translateY(-7px) rotate(8deg);box-shadow:0 0 40px #c084fccc,0 15px 30px #08020f99}}
-.wallet-footnote{font-size:10px;line-height:1.5;color:#777087;text-align:center;margin:15px 6px}
-.page{display:none}.page.active{display:block;animation:pageIn .28s ease both}@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.panel,.tile{background:linear-gradient(145deg,#17122a,#0e0b18);border:1px solid #34264b;box-shadow:0 12px 30px #0004}
-.hero{background:linear-gradient(125deg,#291052,#4b1a91,#24104a);border-color:#9254db}
-.balance{color:#fff;background:none;text-shadow:0 4px 20px #12052466}
-.btn{background:linear-gradient(110deg,#a855f7,#7c3aed 55%,#c084fc);color:white;box-shadow:0 8px 22px #7c3aed44}
-.btn.secondary{background:#211633;color:#e9d5ff;border:1px solid #5b3a80}
-.task .ico,.tile .ico{background:linear-gradient(145deg,#3b176b,#21123c);border:1px solid #56348a}
-.nav{background:#0b0914ed;border-top:1px solid #302344;box-shadow:0 -10px 30px #0008;backdrop-filter:blur(20px)}
-.nav button{color:#8c829e}.nav button.active{color:#d8b4fe;text-shadow:0 0 15px #a855f788}
-.field{background:#0d0a16;border-color:#493360}.field:focus{border-color:#a855f7;box-shadow:0 0 0 3px #a855f722}
-.notice{background:#291d3b;border-color:#63418b;color:#e9d5ff}
-.status{color:#a7f3d0}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-
-
-/* ===== Leaf Earn-inspired emerald glass UI ===== */
-:root{--bg:#03130d;--panel:#082719;--panel2:#0b3522;--line:#15583a;--text:#eafff1;--muted:#91b4a0;--blue:#08a85f;--cyan:#20e0a0;--green:#14c878;--red:#ff7185;--pink:#9c7be8}
-body{background:#03120c;color:var(--text);background-image:radial-gradient(ellipse at 50% -10%,#0c693a66,transparent 48%),radial-gradient(ellipse at 100% 50%,#075a3433,transparent 38%),linear-gradient(180deg,#04170e,#020d09);background-attachment:fixed}
-.app{max-width:520px;padding:16px 16px 112px}
-.app:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;opacity:.2;background-image:radial-gradient(circle at 7% 20%,#8efac0 0 1px,transparent 2px),radial-gradient(circle at 85% 38%,#8efac0 0 1px,transparent 2px),radial-gradient(circle at 40% 75%,#8efac0 0 1px,transparent 2px);background-size:170px 210px,230px 260px,300px 310px}
-.top{display:none}
-.leaf-top{display:flex;justify-content:space-between;align-items:center;margin:8px 0 20px}.leaf-brand{display:flex;align-items:center;gap:10px}.leaf-logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#0c9e56,#06482b);display:grid;place-items:center;font-size:25px;box-shadow:0 0 22px #00c66b55;border:1px solid #22c97866}.leaf-brand b{display:block;font-size:15px;letter-spacing:1.5px}.leaf-brand small{display:block;font-size:9px;color:#6eaa8a;letter-spacing:2px;margin-top:3px}.leaf-online{font-size:9px;letter-spacing:1.2px;color:#52dfa0;border:1px solid #176c45;border-radius:30px;padding:7px 10px;background:#06341f}.leaf-online i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#2bf09a;margin-right:5px;box-shadow:0 0 9px #2bf09a}
-.leaf-balance-card{position:relative;overflow:hidden;min-height:160px;padding:22px 20px;border:1px solid #167b4c;background:linear-gradient(120deg,#0a482b,#064024 58%,#052a1b);clip-path:polygon(7% 0,100% 0,100% 76%,93% 100%,0 100%,0 25%);box-shadow:0 15px 40px #0008,inset 0 0 30px #27dc8020;animation:leafEnter .7s both}
-.leaf-balance-card:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,#ffffff0c 48%,transparent 65%);transform:translateX(-100%);animation:leafShine 7s ease-in-out infinite}
-.balance-copy{position:relative;z-index:2}.micro-title{display:block;font-size:10px;letter-spacing:2.5px;font-weight:800;color:#9bc8ad}.balance-copy>strong{display:block;font-size:52px;line-height:1.1;margin:7px 0 12px;color:#a3ffd0;text-shadow:0 0 25px #45ff9a33;font-variant-numeric:tabular-nums}.leaf-value{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:1.8px;color:#69c996}.leaf-value b{font-size:12px;letter-spacing:.3px;color:#2ef5a0;border:1px solid #178d58;background:#075b36;border-radius:25px;padding:6px 12px}.clover-art{position:absolute;right:22px;top:22px;font-size:74px;filter:drop-shadow(0 0 14px #7bff5d66);animation:cloverFloat 4s ease-in-out infinite;transform-origin:center}
-.balance-deco{position:absolute;right:45px;bottom:-70px;width:190px;height:190px;border:1px solid #a4ffc011;border-radius:50%;box-shadow:0 0 0 22px #a4ffc008,0 0 0 45px #a4ffc005}
-@keyframes leafEnter{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}@keyframes leafShine{0%,65%{transform:translateX(-100%)}90%,100%{transform:translateX(100%)}}@keyframes cloverFloat{50%{transform:translateY(-8px) rotate(7deg)}}
-.profile-strip,.telegram-id-card,.activity-link,.support-link,.social-task,.invite-box,.steps-card,.me-profile,.me-info,.me-menu{background:linear-gradient(125deg,#0b3523eF,#082719f2);border:1px solid #155a3b;box-shadow:0 10px 25px #0005,inset 0 1px #ffffff08}
-.profile-strip{display:flex;align-items:center;gap:12px;padding:15px;margin-top:18px;clip-path:polygon(6% 0,100% 0,100% 83%,94% 100%,0 100%,0 20%)}.profile-avatar{width:52px;height:52px;display:grid;place-items:center;background:linear-gradient(145deg,#0b8c53,#064127);border:1px solid #20b978;color:#9dffca;font-size:25px;font-weight:800;clip-path:polygon(18% 0,100% 0,100% 78%,80% 100%,0 100%,0 20%)}.profile-copy{flex:1}.profile-copy small,.id-copy small{display:block;font-size:9px;letter-spacing:2px;color:#7da98d;margin-bottom:4px}.profile-copy b{display:block;font-size:17px}.profile-copy span{font-size:12px;color:#89a995}.profile-status{width:38px;height:28px;border-radius:30px;background:#062719;border:1px solid #17633e;color:#31e995;display:grid;place-items:center}
-.telegram-id-card{display:flex;align-items:center;gap:12px;padding:13px;margin-top:10px;clip-path:polygon(5% 0,100% 0,100% 82%,94% 100%,0 100%,0 18%)}.id-icon,.activity-icon,.support-icon{width:42px;height:42px;display:grid;place-items:center;background:linear-gradient(145deg,#087d4b,#06472e);color:#52e9a0;font-size:19px;clip-path:polygon(20% 0,100% 0,100% 80%,80% 100%,0 100%,0 20%)}.id-copy{flex:1;min-width:0}.id-copy b{font-size:17px;letter-spacing:1px}.telegram-id-card button{background:#06472c;border:1px solid #16764a;color:#42dc91;border-radius:20px;padding:10px 12px;font-size:9px;letter-spacing:1.5px;font-weight:800}
-.activity-link{display:flex;align-items:center;gap:12px;padding:13px;margin-top:14px;clip-path:polygon(6% 0,100% 0,100% 82%,94% 100%,0 100%,0 20%);cursor:pointer}.activity-link>div:nth-child(2){flex:1}.activity-link b{display:block;font-size:14px}.activity-link small{display:block;color:#7ea58c;font-size:11px;margin-top:4px}.activity-link>span,.support-link>span,.social-task>span{font-size:24px;color:#9ab7a5}
-.home-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:17px 0}.home-actions button{min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#53f0a4;font-size:10px;letter-spacing:2px;font-weight:850;clip-path:polygon(12% 0,100% 0,100% 82%,88% 100%,0 100%,0 18%);border:1px solid #169a5d;background:linear-gradient(145deg,#075d36,#06351f);box-shadow:0 9px 20px #0005;transition:transform .2s,filter .2s}.home-actions button:active{transform:scale(.96)}.home-actions button b{font-size:27px}.home-actions .action-withdraw{background:linear-gradient(145deg,#09b879,#006b4a);color:#d4fff0}.home-actions .action-refer{background:linear-gradient(145deg,#43345f,#211c3c);border-color:#66538f;color:#c4a5ff}
-.support-link{display:flex;align-items:center;gap:12px;padding:14px;clip-path:polygon(5% 0,100% 0,100% 82%,94% 100%,0 100%,0 18%);cursor:pointer}.support-icon{background:linear-gradient(145deg,#247b69,#0c4d3c);color:#8ef3ce}.support-link b{flex:1;font-size:14px}
-.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}.home-stats>div,.friend-stats>div{background:linear-gradient(145deg,#0b3523,#082417);border:1px solid #155a3b;padding:12px 8px;clip-path:polygon(12% 0,100% 0,100% 80%,88% 100%,0 100%,0 20%)}.home-stats small,.friend-stats small{display:block;font-size:8px;letter-spacing:1px;color:#7ca88c}.home-stats b{display:block;margin-top:6px;font-size:16px;color:#42e39a}
-.page-heading{margin:12px 0 20px}.page-heading small{font-size:9px;letter-spacing:2.5px;color:#83ae92;font-weight:800}.page-heading h1{font-size:29px;margin:5px 0 0;letter-spacing:-.5px}
-.mini-balance{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;margin-bottom:22px;background:linear-gradient(120deg,#0a482b,#06351f);border:1px solid #176d45;clip-path:polygon(7% 0,100% 0,100% 80%,93% 100%,0 100%,0 20%)}.mini-balance small{display:block;color:#8ab79a;font-size:9px;letter-spacing:2px}.mini-balance b{display:block;font-size:20px;margin-top:5px;color:#a6ffd0}.mini-balance>span{font-size:40px;filter:drop-shadow(0 0 10px #70ff5a66)}
-.section{margin:20px 0 12px}.leaf-section h2{font-size:11px;letter-spacing:2px;color:#d7f4e1}.leaf-section>span{color:#75a58a;font-size:10px}
-.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ad-card{padding:13px;border:1px solid #155a3b;background:linear-gradient(145deg,#0b3823,#082316);clip-path:polygon(10% 0,100% 0,100% 88%,90% 100%,0 100%,0 12%);box-shadow:0 10px 22px #0005}.ad-meta{display:flex;justify-content:space-between}.ad-meta small{font-size:9px;letter-spacing:1.5px;color:#8bb59a}.ad-meta b{font-size:11px;color:#22df8c}.ad-eye{text-align:center;font-size:30px;letter-spacing:5px;color:#020a05;margin:13px 0;text-shadow:0 0 10px #31f18b55}.ad-card>strong{display:block;text-align:center;color:#29e795;font-size:20px;margin-bottom:12px}.ad-card button{width:100%;padding:11px 8px;background:linear-gradient(100deg,#07854b,#07965b);border:1px solid #19b76d;color:#eafff2;font-size:10px;letter-spacing:2px;font-weight:850;clip-path:polygon(8% 0,100% 0,100% 80%,92% 100%,0 100%,0 20%)}.ad-card-center{grid-column:1/-1;width:58%;justify-self:center}
-.social-task{display:flex;align-items:center;gap:12px;padding:13px;margin:10px 0;clip-path:polygon(5% 0,100% 0,100% 82%,94% 100%,0 100%,0 18%);cursor:pointer}.social-task>div:nth-child(2){flex:1}.social-task b{font-size:13px}.social-task small{display:block;color:#7ea58c;font-size:10px;margin-top:4px}.social-task-icon{width:43px;height:43px;display:grid;place-items:center;background:linear-gradient(145deg,#946b2d,#573b19);color:#ffe2a0;font-size:20px;clip-path:polygon(20% 0,100% 0,100% 80%,80% 100%,0 100%,0 20%)}.social-task-icon.purple{background:linear-gradient(145deg,#65489a,#332354);color:#d7bcff}
-.referral-hero{padding:19px;border:1px solid #1a9b5d;background:linear-gradient(120deg,#07512e,#06391f 60%,#052b1a);clip-path:polygon(7% 0,100% 0,100% 82%,93% 100%,0 100%,0 18%);box-shadow:0 12px 30px #0005}.referral-hero>small{font-size:10px;letter-spacing:2.5px;color:#a6d6b6;font-weight:800}.referral-reward{display:flex;align-items:center;gap:9px;margin:12px 0}.referral-reward span{font-size:42px}.referral-reward strong{font-size:45px;line-height:1;color:white}.referral-reward b{font-size:14px;letter-spacing:2px}.referral-hero p{font-size:11px;color:#a9cdb5}.ref-pills{display:flex;gap:6px;flex-wrap:wrap}.ref-pills span{font-size:9px;padding:7px 9px;border:1px solid #39865b;background:#ffffff0b;border-radius:20px;color:#d5f8df}
-.friend-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.friend-stats>div{text-align:center}.friend-stats b{display:block;font-size:23px;margin-top:5px;color:#20db8a}
-.invite-box{padding:14px;margin-top:13px;clip-path:polygon(6% 0,100% 0,100% 85%,94% 100%,0 100%,0 18%)}.invite-heading{display:flex;align-items:center;gap:10px}.invite-heading>div:nth-child(2){flex:1;min-width:0}.invite-heading small{display:block;color:#8ab69a;font-size:9px;letter-spacing:2px}.invite-heading b{display:block;font-size:11px;overflow-wrap:anywhere;margin-top:6px;font-weight:500}.invite-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:13px 0}.invite-buttons button{padding:12px;background:#064b2d;border:1px solid #158c52;color:#43e99b;font-size:10px;letter-spacing:2px;font-weight:850;clip-path:polygon(8% 0,100% 0,100% 80%,92% 100%,0 100%,0 20%)}.invite-buttons button+button{background:#087b48;color:white}.invite-total{text-align:center;padding:11px;border-top:1px solid #1a5638;font-size:10px;letter-spacing:2px;color:#b8d8c2}.invite-total b{color:#23df8c;margin-left:6px}
-.steps-card{padding:0 13px;clip-path:polygon(5% 0,100% 0,100% 88%,95% 100%,0 100%,0 12%)}.steps-card>div{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid #1b5035}.steps-card>div:last-child{border:0}.steps-card i{width:39px;height:39px;display:grid;place-items:center;font-style:normal;background:#087b49;color:#7effb7;clip-path:polygon(20% 0,100% 0,100% 80%,80% 100%,0 100%,0 20%);font-weight:800}.steps-card i.purple{background:#49336f;color:#d7bcff}.steps-card i.gold{background:#655321;color:#ffe38a}.steps-card span{flex:1}.steps-card b{display:block;font-size:12px}.steps-card small{display:block;font-size:10px;color:#83a993;margin-top:4px}.steps-card strong{color:#2be293;font-size:12px}
-.me-profile{display:flex;align-items:center;gap:12px;padding:16px;clip-path:polygon(6% 0,100% 0,100% 82%,94% 100%,0 100%,0 18%)}.profile-avatar.large{width:54px;height:54px}.me-profile>div:nth-child(2){flex:1}.me-profile b{display:block;font-size:16px}.me-profile small{display:block;color:#82a990;font-size:11px;margin-top:4px}.verified-dot{color:#28e394}
-.me-info{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;margin-top:10px}.me-info small{display:block;color:#82a990;font-size:8px;letter-spacing:1.5px}.me-info b{display:block;font-size:12px;margin-top:6px;overflow-wrap:anywhere}
-.me-menu{margin-top:12px;padding:5px 14px}.me-menu button{width:100%;display:flex;align-items:center;gap:12px;padding:14px 0;background:none;color:#eafff1;border-bottom:1px solid #1a5034;text-align:left}.me-menu button:last-child{border:0}.me-menu button span{color:#45df9a;font-size:19px}.me-menu button b{flex:1;font-size:12px}.me-menu button i{font-style:normal;color:#8eae9a;font-size:20px}
-.panel,.tile{background:linear-gradient(145deg,#0b3523,#071d13);border:1px solid #15583a;box-shadow:0 10px 25px #0005}
-.hero,.wallet-card{background:linear-gradient(120deg,#0a482b,#064024 58%,#052a1b);border-color:#167b4c}
-.btn{background:linear-gradient(110deg,#08a85f,#04c77b);color:#f0fff6;box-shadow:0 8px 22px #008b4b33}
-.btn.secondary{background:#0a3824;color:#baf5d0;border:1px solid #1a7548}
-.field{background:#04170e;border-color:#17603d;color:#eafff1}.field:focus{border-color:#22d98b;box-shadow:0 0 0 3px #22d98b22}
-.nav{background:#03140dec;border-top:1px solid #175638;box-shadow:0 -10px 30px #0009;backdrop-filter:blur(20px);padding-bottom:calc(10px + env(safe-area-inset-bottom))}
-.nav button{color:#789a85;font-size:9px;letter-spacing:1.4px;font-weight:800}.nav button b{font-size:20px;color:#78a98b}.nav button.active{color:#2cf09a;text-shadow:0 0 13px #20df8a66}.nav button.active b{color:#27ed97}
-.notice{background:#123b27;border-color:#226b45;color:#bce9ca}.status{color:#45e5a1}
-.section h2{color:#dcf5e4}
-@media(max-width:380px){.clover-art{right:10px;font-size:60px}.balance-copy>strong{font-size:44px}.home-actions{gap:7px}.home-actions button{font-size:8px}.ad-card{padding:10px}.referral-reward strong{font-size:38px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-
+.balance-card:after{
+ content:"";position:absolute;width:190px;height:190px;
+ right:-75px;top:-85px;border:30px solid #ffffff15;
+ border-radius:50%;
+}
+.balance-card small{color:#d6e7ff;font-weight:700}
+.balance-card h1{font-size:37px;margin:9px 0;font-weight:900}
+.balance-card .currency{font-size:15px}
+.balance-bottom{
+ display:flex;justify-content:space-between;
+ border-top:1px solid #ffffff35;padding-top:14px;
+ margin-top:18px;font-size:12px;
+}
+.section-head{
+ display:flex;align-items:center;justify-content:space-between;
+ margin:25px 0 13px;
+}
+.section-head h3{margin:0;font-size:17px}
+.section-head small{color:var(--cyan)}
+.stats{
+ display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.stat,.task-card,.panel{
+ background:var(--card);border:1px solid var(--border);
+ border-radius:17px;padding:16px;
+}
+.stat-icon{
+ width:37px;height:37px;border-radius:12px;
+ display:grid;place-items:center;
+ background:#287aff22;color:var(--cyan);
+ margin-bottom:12px;
+}
+.stat small{color:var(--muted);font-size:12px}
+.stat h3{font-size:21px;margin:4px 0 0}
+.task-card{margin-bottom:13px}
+.task-top{display:flex;align-items:center;gap:12px}
+.task-icon{
+ width:48px;height:48px;border-radius:14px;
+ background:linear-gradient(135deg,#284e9d,#1bafc5);
+ display:grid;place-items:center;font-size:20px;
+}
+.task-info{flex:1}
+.task-info h3{font-size:15px;margin:0}
+.task-info p{font-size:11px;color:var(--muted);margin:3px 0}
+.tag{
+ background:#1c3150;color:#58caff;
+ border-radius:20px;padding:5px 9px;font-size:10px;
+}
+.primary,.secondary,.danger{
+ border:0;border-radius:12px;padding:13px;
+ font-weight:800;width:100%;color:white;
+}
+.primary{
+ background:linear-gradient(100deg,#3479ff,#13bcd9);
+ box-shadow:0 6px 20px #2678ff30;
+}
+.secondary{background:#223653;color:#a9d6ff}
+.danger{background:#412337;color:#ff91a8}
+.task-card button{margin-top:14px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.two-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.progress{
+ height:7px;background:#25334c;border-radius:20px;
+ overflow:hidden;margin-top:12px;
+}
+.progress div{height:100%;background:linear-gradient(90deg,#3279ff,#24d8e6);width:0%}
+.input-group{margin:14px 0;text-align:left}
+.input-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}
+.input-group input,.input-group select{
+ width:100%;background:#0d1729;border:1px solid #263954;
+ border-radius:11px;padding:14px;color:white;outline:none;
+}
+.input-group input:focus,.input-group select:focus{border-color:var(--blue)}
+.info-row{
+ display:flex;justify-content:space-between;
+ padding:13px 0;border-bottom:1px solid var(--border);
+ font-size:13px;
+}
+.info-row span:first-child{color:var(--muted)}
+.community-link{
+ display:flex;align-items:center;gap:13px;
+ padding:16px;background:var(--card);
+ border:1px solid var(--border);border-radius:15px;
+ text-decoration:none;color:white;margin:12px 0;
+}
+.community-link i{font-size:23px;color:var(--cyan)}
+.community-link div{flex:1}
+.community-link small{display:block;color:var(--muted);margin-top:3px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:300px}
+th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--border);font-size:12px}
+th{color:var(--cyan)}
+td{color:#dce5f5}
+.empty{text-align:center;color:var(--muted);padding:30px}
+nav{
+ position:fixed;bottom:0;left:0;right:0;z-index:50;
+ max-width:520px;margin:auto;
+ background:#101a2beF;backdrop-filter:blur(18px);
+ border-top:1px solid var(--border);
+ display:flex;justify-content:space-around;
+ padding:11px 4px calc(11px + env(safe-area-inset-bottom));
+}
+.nav-item{
+ border:0;background:none;color:#71819d;
+ font-size:10px;font-weight:700;flex:1;
+}
+.nav-item i{display:block;font-size:19px;margin-bottom:5px}
+.nav-item.active{color:#45caff}
+.nav-item.active i{filter:drop-shadow(0 0 8px #31bfff)}
+#loading{
+ display:none;position:fixed;inset:0;z-index:100;
+ background:#050a16d9;align-items:center;justify-content:center;
+}
+.loader-box{
+ background:#15223a;padding:28px 40px;
+ border-radius:20px;text-align:center;
+ border:1px solid var(--border);
+}
+.spinner{
+ width:42px;height:42px;border-radius:50%;
+ border:4px solid #344866;border-top-color:#29c8ec;
+ animation:spin .8s linear infinite;margin:auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+#toast{
+ position:fixed;top:20px;left:50%;transform:translateX(-50%);
+ z-index:200;background:#1c2c48;border:1px solid #3a567b;
+ padding:12px 20px;border-radius:12px;
+ font-size:13px;display:none;width:max-content;max-width:90%;
+ box-shadow:0 8px 30px #0008;
+}
+.footer{text-align:center;color:#64738c;font-size:11px;margin-top:25px}
 </style>
 </head>
+
 <body>
 <div class="app">
-<header class="top"><div class="brand"><div class="logo">LP</div><div>LINK PILOT<div class="sub">USDC REWARDS</div></div></div><div class="pill" id="connection">✦ Connecting…</div></header>
 
-<section id="home" class="page active">
-<div class="leaf-top"><div class="leaf-brand"><div class="leaf-logo">🍀</div><div><b>LINK PILOT</b><small>GROW · EARN · REPEAT</small></div></div><div class="leaf-online"><i></i> ONLINE</div></div>
-<div class="leaf-balance-card">
- <div class="balance-copy"><span class="micro-title">TOTAL BALANCE</span><strong><span id="balance">0.000000</span></strong><div class="leaf-value"><span>🍃 LEAF</span><b>● &nbsp;$<span id="usdValue">0.0000</span></b></div></div>
- <div class="clover-art" aria-hidden="true">🍀</div>
- <div class="balance-deco"></div>
-</div>
-<div class="profile-strip"><div class="profile-avatar" id="avatarInitial">L</div><div class="profile-copy"><small>WELCOME BACK</small><b id="homeUserName">Link Pilot User</b><span id="homeHandle">@telegram_user</span></div><div class="profile-status">●</div></div>
-<div class="telegram-id-card"><div class="id-icon">🍃</div><div class="id-copy"><small>TELEGRAM ID</small><b id="homeTelegramId">Connect Telegram</b></div><button onclick="copyTelegramId()">▣ COPY</button></div>
-<div class="activity-link" onclick="go('history')"><div class="activity-icon">♟</div><div><b>My activity</b><small>View your recent entries</small></div><span>›</span></div>
-<div class="home-actions">
- <button class="action-earn" onclick="go('tasks')"><b>ϟ</b><span>EARN</span></button>
- <button class="action-withdraw" onclick="go('wallet')"><b>⇩</b><span>WITHDRAW</span></button>
- <button class="action-refer" onclick="go('community')"><b>•</b><span>REFER</span></button>
-</div>
-<div class="support-link" onclick="window.open('https://t.me/Linkpilot231_bot','_blank')"><div class="support-icon">☎</div><b>Contact support</b><span>›</span></div>
-<div class="home-stats"><div><small>ADS COMPLETED</small><b id="adsCount">0</b></div><div><small>ACTIVE FRIENDS</small><b id="refCount">0</b></div><div><small>REWARD / AD</small><b>0.50</b></div></div>
+<header>
+ <div class="brand">
+  <div class="logo"><i class="fas fa-paper-plane"></i></div>
+  <div><h2>Link Pilot</h2><small>PREMIUM REWARDS</small></div>
+ </div>
+ <div class="profile"><i class="fas fa-user"></i></div>
+</header>
+
+<!-- HOME -->
+<section class="page active" id="home-page">
+ <div class="greeting">
+  <small>WELCOME BACK 👋</small>
+  <h2>Hello, <span id="username">Pilot</span></h2>
+  <p>Your rewards journey starts here.</p>
+ </div>
+
+ <div class="balance-card">
+  <small><i class="fas fa-wallet"></i> TOTAL BALANCE</small>
+  <h1><span id="balance">0.00</span> <span class="currency">BDT</span></h1>
+  <div class="balance-bottom">
+   <span><i class="fas fa-chart-line"></i> Your earnings</span>
+   <span>Link Pilot Wallet</span>
+  </div>
+ </div>
+
+ <div class="section-head"><h3>Overview</h3><small>YOUR ACTIVITY</small></div>
+ <div class="stats">
+  <div class="stat">
+   <div class="stat-icon"><i class="fas fa-eye"></i></div>
+   <small>Ads Watched Today</small>
+   <h3 id="home-ads">0</h3>
+  </div>
+  <div class="stat">
+   <div class="stat-icon"><i class="fas fa-users"></i></div>
+   <small>Total Referrals</small>
+   <h3 id="home-ref">0</h3>
+  </div>
+ </div>
+
+ <div class="section-head"><h3>Quick Actions</h3></div>
+ <div class="two-buttons">
+  <button class="primary" onclick="navigate('tasks-page')"><i class="fas fa-play"></i> Watch Ads</button>
+  <button class="secondary" onclick="navigate('withdraw-page')"><i class="fas fa-wallet"></i> Withdraw</button>
+ </div>
+
+ <div class="footer">POWERED BY LINK PILOT © 2026</div>
 </section>
 
-<section id="tasks" class="page">
-<div class="page-heading"><small>COMPLETE & COLLECT</small><h1>Earn</h1></div>
-<div class="mini-balance"><div><small>TOTAL BALANCE</small><b><span id="earnBalance">0.000000</span> USDC</b></div><span>🍀</span></div>
-<div class="section leaf-section"><h2>● &nbsp; WATCH & EARN</h2><span>Rewarded ads</span></div>
-<div class="ad-grid">
- <div class="ad-card"><div class="ad-meta"><small>AD #1</small><b>0/8</b></div><div class="ad-eye">◉ ◉</div><strong>🍀 0.50</strong><button onclick="watchAd()">WATCH</button></div>
- <div class="ad-card"><div class="ad-meta"><small>AD #2</small><b>0/10</b></div><div class="ad-eye">◉ ◉</div><strong>🍀 0.50</strong><button onclick="watchAd()">WATCH</button></div>
- <div class="ad-card ad-card-center"><div class="ad-meta"><small>AD #3</small><b>0/5</b></div><div class="ad-eye">◉ ◉</div><strong>🍀 0.50</strong><button onclick="watchAd()">WATCH</button></div>
+<!-- TASKS -->
+<section class="page" id="tasks-page">
+ <div class="greeting">
+  <small>COMPLETE TASKS</small>
+  <h2>Earn Rewards 🎬</h2>
+  <p>Watch available advertisements and earn rewards.</p>
+ </div>
+
+ <div class="task-card">
+  <div class="task-top">
+   <div class="task-icon"><i class="fas fa-video"></i></div>
+   <div class="task-info">
+    <h3>Watch Advertisement</h3>
+    <p>Complete an available rewarded ad</p>
+   </div>
+   <span class="tag">MANUAL</span>
+  </div>
+  <button class="primary" id="manual-btn" onclick="playAd(false)">
+   <i class="fas fa-play"></i> Watch Now
+  </button>
+ </div>
+
+ <div class="task-card">
+  <div class="task-top">
+   <div class="task-icon"><i class="fas fa-robot"></i></div>
+   <div class="task-info">
+    <h3>Auto Ads Mode</h3>
+    <p>Automatic scheduling of user-initiated ad sessions</p>
+   </div>
+   <span class="tag">AUTO</span>
+  </div>
+  <div class="two-buttons">
+   <button class="primary" id="start-auto" onclick="startAuto()">▶ Start</button>
+   <button class="danger" id="stop-auto" onclick="stopAuto()" disabled>■ Stop</button>
+  </div>
+  <div class="progress"><div id="progress-bar"></div></div>
+  <small style="color:var(--muted)" id="auto-status">Auto mode stopped</small>
+ </div>
+
+ <div class="panel">
+  <div class="info-row"><span>Watched Today</span><b id="daily-ads">0</b></div>
+  <div class="info-row"><span>Daily Limit</span><b>10,000</b></div>
+  <div class="info-row"><span>Reward per Ad</span><b>Server verified</b></div>
+  <div class="info-row"><span>Current Balance</span><b><span id="task-balance">0.00</span> BDT</b></div>
+ </div>
+ <p style="color:var(--muted);font-size:11px">Ad availability and rewards depend on the advertising provider and server verification.</p>
+</section>
+
+<!-- WITHDRAW -->
+<section class="page" id="withdraw-page">
+ <div class="greeting">
+  <small>PAYMENT CENTER</small>
+  <h2>Withdraw 💳</h2>
+  <p>Submit a withdrawal request.</p>
+ </div>
+
+ <div class="balance-card">
+  <small>AVAILABLE BALANCE</small>
+  <h1><span id="withdraw-balance">0.00</span> <span class="currency">BDT</span></h1>
+ </div>
+
+ <div class="panel" style="margin-top:15px">
+  <div class="info-row"><span>Minimum Withdrawal</span><b>20 BDT</b></div>
+  <div class="info-row"><span>Minimum Referrals</span><b>5</b></div>
+  <div class="info-row"><span>Your Referrals</span><b id="ref-count">0</b></div>
+ </div>
+
+ <div class="panel" style="margin-top:15px">
+  <div class="input-group">
+   <label>Payment Method</label>
+   <select id="withdraw-method">
+    <option value="">Select Method</option>
+    <option>Bkash</option>
+    <option>Nagad</option>
+    <option>Rocket</option>
+    <option>Binance</option>
+   </select>
+  </div>
+  <div class="input-group">
+   <label>Account Number / Wallet</label>
+   <input id="account-number" placeholder="Enter your account">
+  </div>
+  <div class="input-group">
+   <label>Withdrawal Amount (BDT)</label>
+   <input id="withdraw-amount" type="number" min="20" placeholder="Enter amount">
+  </div>
+  <button class="primary" id="withdraw-btn" onclick="requestWithdraw()">
+   <i class="fas fa-paper-plane"></i> Request Withdrawal
+  </button>
+ </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="page" id="community-page">
+ <div class="greeting">
+  <small>STAY CONNECTED</small>
+  <h2>Community 📢</h2>
+  <p>Join Link Pilot official community.</p>
+ </div>
+
+ <a class="community-link" href="https://t.me/linkpilot322" target="_blank">
+  <i class="fab fa-telegram"></i>
+  <div><b>Join Telegram Group</b><small>Connect with other members</small></div>
+  <i class="fas fa-arrow-up-right-from-square"></i>
+ </a>
+
+ <a class="community-link" href="https://t.me/linkpilotReview" target="_blank">
+  <i class="fas fa-bullhorn"></i>
+  <div><b>Official Channel</b><small>News, updates and announcements</small></div>
+  <i class="fas fa-arrow-up-right-from-square"></i>
+ </a>
+</section>
+
+<!-- HISTORY -->
+<section class="page" id="history-page">
+ <div class="greeting">
+  <small>TRANSACTION CENTER</small>
+  <h2>Reward History 📜</h2>
+  <p>Track your latest account activity.</p>
+ </div>
+ <div class="panel table-wrap">
+  <table>
+   <thead><tr><th>Date</th><th>Type</th><th>Amount</th></tr></thead>
+   <tbody id="history-body">
+    <tr><td colspan="3" class="empty">No transactions yet</td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<nav>
+ <button class="nav-item active" data-page="home-page" onclick="navigate('home-page')"><i class="fas fa-house"></i>Home</button>
+ <button class="nav-item" data-page="tasks-page" onclick="navigate('tasks-page')"><i class="fas fa-bullseye"></i>Tasks</button>
+ <button class="nav-item" data-page="withdraw-page" onclick="navigate('withdraw-page')"><i class="fas fa-wallet"></i>Wallet</button>
+ <button class="nav-item" data-page="community-page" onclick="navigate('community-page')"><i class="fas fa-users"></i>Community</button>
+ <button class="nav-item" data-page="history-page" onclick="navigate('history-page')"><i class="fas fa-clock"></i>History</button>
+</nav>
 </div>
-<div id="adStatus" class="status"></div>
-<div class="section leaf-section"><h2>● &nbsp; BONUS TASKS</h2><span>More ways to earn</span></div>
-<div class="social-task" onclick="go('community')"><div class="social-task-icon">✈</div><div><b>Join our Telegram community</b><small>Stay updated with Link Pilot</small></div><span>›</span></div>
-<div class="social-task" onclick="go('community')"><div class="social-task-icon purple">♧</div><div><b>Invite your friends</b><small>Earn 1.00 USDC per qualified referral</small></div><span>›</span></div>
-<div class="notice">Only verified rewarded ads can earn USDC. Daily limits and eligibility are enforced by the secure backend.</div>
-</section>
 
-<section id="wallet" class="page"><div class="section"><h2>USDC wallet</h2><span>BNB Smart Chain</span></div><div class="panel"><div class="eyebrow">Available</div><div class="balance" style="font-size:29px"><span id="walletBalance">0.000000</span> <small>USDC</small></div><div class="notice">Network: BNB Smart Chain (Chain ID 56). Token contract: Binance-Peg USD Coin. This is not Circle-native USDC. Confirm that your receiving wallet supports this exact token and network.</div><label class="label">Your BEP-20 receiving address</label><input class="field" id="walletAddress" placeholder="0x…"><label class="label">Withdrawal amount (USDC)</label><input class="field" id="withdrawAmount" type="number" min="1" step="0.000001" placeholder="Minimum set by admin"><button class="btn wide" onclick="requestWithdrawal()">Submit withdrawal request</button><div id="withdrawStatus" class="status"></div><p class="muted">Requests are reviewed by admin. Network fees and minimum withdrawal are shown after backend setup.</p></div><div class="section"><h2>Recent withdrawals</h2></div><div id="withdrawals" class="panel empty">Sign in to load your history.</div></section>
-
-<section id="community" class="page">
-<div class="page-heading"><small>GROW YOUR COMMUNITY</small><h1>Friends</h1></div>
-<div class="referral-hero"><small>PER FRIEND YOU INVITE</small><div class="referral-reward"><span>🍀</span><strong>1.00</strong><b>USDC</b></div><p>Earn 1 USDC for every qualified friend who joins Link Pilot.</p><div class="ref-pills"><span>Invite a friend</span><span>They get started</span><span>You earn rewards</span></div></div>
-<div class="friend-stats"><div><small>FRIENDS</small><b id="friendCount">0</b></div><div><small>ACTIVE</small><b id="activeFriends">0</b></div><div><small>EARNED</small><b id="refEarned">0</b></div></div>
-<div class="invite-box"><div class="invite-heading"><div class="activity-icon">♧</div><div><small>YOUR INVITE LINK</small><b id="refLink">Referral link loads after sign-in</b></div></div><div class="invite-buttons"><button onclick="copyReferral()">▣ &nbsp; COPY</button><button onclick="shareReferral()">➤ &nbsp; SHARE</button></div><div class="invite-total">♟ &nbsp; MY INVITES <b id="inviteCount">0</b></div></div>
-<div class="section leaf-section"><h2>● &nbsp; HOW IT WORKS</h2></div>
-<div class="steps-card"><div><i>01</i><span><b>They join</b><small>Your friend opens Link Pilot from your invite link</small></span><strong>+0.00</strong></div><div><i class="purple">02</i><span><b>They get active</b><small>Backend verifies eligibility and activity</small></span><strong>+1.00</strong></div><div><i class="gold">03</i><span><b>You earn</b><small>Reward is credited after verification</small></span><strong>USDC</strong></div></div>
-<div class="section leaf-section"><h2>● &nbsp; COMMUNITY</h2></div>
-<div class="social-task" onclick="window.open('https://t.me/linkpilot322','_blank')"><div class="social-task-icon">✈</div><div><b>Telegram group</b><small>Join the Link Pilot community</small></div><span>›</span></div>
-<div class="social-task" onclick="window.open('https://t.me/linkpilotReview','_blank')"><div class="social-task-icon purple">★</div><div><b>Review channel</b><small>News and announcements</small></div><span>›</span></div>
-</section>
-
-<section id="history" class="page">
-<div class="page-heading"><small>YOUR ACCOUNT</small><h1>Me</h1></div>
-<div class="me-profile"><div class="profile-avatar large" id="meAvatar">L</div><div><b id="userName">Not connected</b><small id="meTelegramHandle">@telegram_user</small></div><span class="verified-dot">●</span></div>
-<div class="me-info"><div><small>TELEGRAM USER ID</small><b id="userId">—</b></div><div><small>REFERRAL CODE</small><b id="refCode">—</b></div></div>
-<div class="me-menu"><button onclick="go('wallet')"><span>◈</span><b>USDC wallet & withdrawal</b><i>›</i></button><button onclick="showHistory()"><span>◷</span><b>Reward history</b><i>⌄</i></button><button onclick="window.open('https://t.me/Linkpilot231_bot','_blank')"><span>☎</span><b>Contact support</b><i>›</i></button></div>
-<div class="section leaf-section"><h2>● &nbsp; TRANSACTION HISTORY</h2></div>
-<div class="panel" id="historyList"><div class="empty">No transactions loaded.</div></div>
-</section>
+<div id="loading">
+ <div class="loader-box">
+  <div class="spinner"></div>
+  <p>Processing...</p>
+ </div>
 </div>
-<nav class="nav"><button class="active" data-page="home" onclick="go('home')"><b>⌂</b>HOME</button><button data-page="tasks" onclick="go('tasks')"><b>ϟ</b>EARN</button><button data-page="wallet" onclick="go('wallet')"><b>🍀</b>WALLET</button><button data-page="community" onclick="go('community')"><b>♧</b>FRIENDS</button><button data-page="history" onclick="go('history')"><b>♟</b>ME</button></nav>
+<div id="toast"></div>
+
 <script>
-const firebaseConfig={apiKey:"AIzaSyBLsjSxEcgN--zF_aU0AgHePC0LS2a2BtQ",authDomain:"link-pilot-39228.firebaseapp.com",projectId:"link-pilot-39228",storageBucket:"link-pilot-39228.firebasestorage.app",messagingSenderId:"324592388884",appId:"1:324592388884:web:2a1df06fe76ab0aa14d001",measurementId:"G-C76P5KT0WE"};
-const ZONE_ID=12241372,AD_REWARD=0.50,REFERRAL_REWARD=1.00,NETWORK="BNB Smart Chain",CHAIN_ID=56;
-const USDC_BSC_CONTRACT="0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
-let app,auth,db,functions,currentUser=null,telegramUser=null,referralUrl="";
-const tg=window.Telegram?.WebApp;
-function setStatus(id,msg){const el=document.getElementById(id);if(el)el.textContent=msg}
-function go(page){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo(0,0)}
-function callable(name,data={}){if(!functions)throw new Error("Firebase Functions is not initialized");return functions.httpsCallable(name)(data)}
-async function init(){
- try{app=firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();functions=firebase.app().functions("us-central1");if(tg){tg.ready();tg.expand();telegramUser=tg.initDataUnsafe?.user||null}
- document.getElementById("connection").textContent="Firebase connected";
- if(telegramUser){document.getElementById("userName").textContent=[telegramUser.first_name,telegramUser.last_name].filter(Boolean).join(" ")||"Telegram user";document.getElementById("userId").textContent=telegramUser.id;document.getElementById("homeTelegramId").textContent=telegramUser.id;document.getElementById("homeUserName").textContent=[telegramUser.first_name,telegramUser.last_name].filter(Boolean).join(" ")||"Telegram user";document.getElementById("avatarInitial").textContent=(telegramUser.first_name||"L").charAt(0).toUpperCase();document.getElementById("meAvatar").textContent=(telegramUser.first_name||"L").charAt(0).toUpperCase();document.getElementById("meTelegramHandle").textContent=telegramUser.username?"@"+telegramUser.username:"Telegram user";await auth.signInAnonymously();currentUser=auth.currentUser;await callable("syncTelegramUser",{initData:tg.initData,referrer:new URLSearchParams(location.search).get("ref")||null});await loadAccount()}
- else{document.getElementById("connection").textContent="Open in Telegram";setStatus("adStatus","Open this app from Telegram to connect your account.")}
- }catch(e){document.getElementById("connection").textContent="Setup required";console.error(e);setStatus("adStatus",e.message)}
+/* ==========================================
+   LINK PILOT CONFIGURATION
+   ========================================== */
+
+// Configure your secure backend before enabling rewards.
+const API_BASE = ""; // Example: https://your-api.example.com
+
+const DAILY_LIMIT = 10000;
+const MIN_WITHDRAW = 20;
+const MIN_REFERRALS = 5;
+
+const tg = window.Telegram?.WebApp;
+if(tg){
+ tg.ready();
+ tg.expand();
+ tg.setHeaderColor("#080d1b");
+ tg.setBackgroundColor("#080d1b");
 }
-async function loadAccount(){try{const r=await callable("getAccount");const d=r.data||{};const bal=Number(d.balance||0).toFixed(6);document.querySelectorAll("#balance,#walletBalance,#earnBalance").forEach(el=>el.textContent=bal);document.querySelectorAll("#adsCount").forEach(el=>el.textContent=d.valuedAds||0);document.querySelectorAll("#refCount,#friendCount,#activeFriends,#inviteCount").forEach(el=>el.textContent=d.qualifiedReferrals||0);document.getElementById("refEarned").textContent=Number(d.referralEarnings||0).toFixed(2);document.getElementById("refCode").textContent=d.referralCode||"—";referralUrl=d.referralCode?location.origin+location.pathname+"?ref="+encodeURIComponent(d.referralCode):"";document.getElementById("refLink").textContent=referralUrl||"Referral link unavailable";renderHistory(d.transactions||[]);renderWithdrawals(d.withdrawals||[])}catch(e){console.warn(e);setStatus("adStatus","Backend functions are not deployed yet. Rewards and withdrawals are locked.")}}
-async function watchAd(){if(!telegramUser){setStatus("adStatus","Please open Link Pilot inside Telegram.");return}const fn=window["show_"+ZONE_ID];if(typeof fn!=="function"){setStatus("adStatus","Monetag SDK is not ready. Check your official SDK tag.");return}setStatus("adStatus","Loading ad…");try{const result=await fn({type:"end",ymid:String(telegramUser.id),requestVar:"link_pilot_reward"});if(!result||result.reward_event_type!=="valued"){setStatus("adStatus","No valued ad confirmation. No reward was added.");return}await callable("submitAdClaim",{zoneId:ZONE_ID,telegramId:String(telegramUser.id),rewardEventType:result.reward_event_type,requestVar:result.request_var||"link_pilot_reward"});setStatus("adStatus","Ad confirmation received. Reward will be credited after server postback verification.");await loadAccount()}catch(e){setStatus("adStatus","Ad not verified: "+e.message)}}
-async function requestWithdrawal(){const address=document.getElementById("walletAddress").value.trim(),amount=Number(document.getElementById("withdrawAmount").value);if(!/^0x[a-fA-F0-9]{40}$/.test(address)){setStatus("withdrawStatus","Enter a valid BNB Smart Chain address.");return}if(!Number.isFinite(amount)||amount<=0){setStatus("withdrawStatus","Enter a valid USDC amount.");return}try{await callable("createWithdrawal",{amount,address,network:"BSC",tokenContract:USDC_BSC_CONTRACT});setStatus("withdrawStatus","Withdrawal request submitted for admin review.");await loadAccount()}catch(e){setStatus("withdrawStatus","Request failed: "+e.message)}}
-function copyReferral(){if(!referralUrl)return; navigator.clipboard?.writeText(referralUrl).then(()=>alert("Referral link copied")).catch(()=>alert(referralUrl))}
-function renderHistory(items){const el=document.getElementById("historyList");el.innerHTML=items.length?items.map(x=>`<div class="listitem row"><span>${escapeHtml(x.type||"Reward")}<br><small class="muted">${escapeHtml(x.status||"pending")}</small></span><strong>${Number(x.amount||0).toFixed(6)} USDC</strong></div>`).join(""):'<div class="empty">No verified transactions yet.</div>'}
-function renderWithdrawals(items){const el=document.getElementById("withdrawals");el.className="panel";el.innerHTML=items.length?items.map(x=>`<div class="listitem row"><span>${escapeHtml(x.status||"pending")}<br><small class="muted">${escapeHtml(x.txHash||"Awaiting review")}</small></span><strong>${Number(x.amount||0).toFixed(6)} USDC</strong></div>`).join(""):'<div class="empty">No withdrawal requests yet.</div>'}
-function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function copyTelegramId(){if(!telegramUser?.id)return alert("Open Link Pilot in Telegram first.");navigator.clipboard?.writeText(String(telegramUser.id)).then(()=>alert("Telegram ID copied")).catch(()=>alert(String(telegramUser.id)))}
-function shareReferral(){if(!referralUrl)return alert("Referral link is not ready yet.");const shareUrl="https://t.me/share/url?url="+encodeURIComponent(referralUrl)+"&text="+encodeURIComponent("Join Link Pilot and earn rewards!");if(tg?.openTelegramLink)tg.openTelegramLink(shareUrl);else window.open(shareUrl,"_blank")}
-function showHistory(){document.getElementById("historyList")?.scrollIntoView({behavior:"smooth",block:"start"})}
-init();
+
+const telegramUser = tg?.initDataUnsafe?.user;
+const userId = telegramUser?.id?.toString() || null;
+
+let state = {
+ balance:0,
+ ads:0,
+ referrals:0,
+ history:[],
+ auto:false
+};
+
+let autoTimer = null;
+let busy = false;
+
+const $ = id => document.getElementById(id);
+
+function notify(message){
+ if(tg?.showAlert){
+  tg.showAlert(message);
+ }else{
+  const el=$("toast");
+  el.textContent=message;
+  el.style.display="block";
+  setTimeout(()=>el.style.display="none",2800);
+ }
+}
+
+function loading(show){
+ $("loading").style.display=show?"flex":"none";
+}
+
+function navigate(page){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ $(page).classList.add("active");
+ document.querySelectorAll(".nav-item").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===page);
+ });
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateUI(){
+ $("balance").textContent=state.balance.toFixed(2);
+ $("withdraw-balance").textContent=state.balance.toFixed(2);
+ $("task-balance").textContent=state.balance.toFixed(2);
+ $("daily-ads").textContent=state.ads;
+ $("home-ads").textContent=state.ads;
+ $("home-ref").textContent=state.referrals;
+ $("ref-count").textContent=state.referrals;
+
+ $("start-auto").disabled=state.auto;
+ $("stop-auto").disabled=!state.auto;
+
+ const history=$("history-body");
+ history.innerHTML="";
+
+ if(!state.history.length){
+  history.innerHTML='<tr><td colspan="3" class="empty">No transactions yet</td></tr>';
+ }else{
+  state.history.forEach(item=>{
+   const tr=document.createElement("tr");
+   [item.date,item.type,item.amount.toFixed(2)+" BDT"].forEach(value=>{
+    const td=document.createElement("td");
+    td.textContent=value;
+    tr.appendChild(td);
+   });
+   history.appendChild(tr);
+  });
+ }
+}
+
+async function api(path,body){
+ if(!API_BASE) throw new Error("Backend is not configured.");
+ if(!userId) throw new Error("Open this app through Telegram.");
+ const response=await fetch(API_BASE+path,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   ...body,
+   telegramInitData:tg?.initData || ""
+  })
+ });
+ const data=await response.json();
+ if(!response.ok || data.success===false){
+  throw new Error(data.message||"Request failed.");
+ }
+ return data;
+}
+
+// Load account data from trusted backend.
+async function loadAccount(){
+ if(!API_BASE || !userId){
+  updateUI();
+  return;
+ }
+ try{
+  const result=await api("/api/account",{});
+  state.balance=Number(result.balance)||0;
+  state.ads=Number(result.dailyAds)||0;
+  state.referrals=Number(result.referrals)||0;
+  state.history=Array.isArray(result.history)?result.history:[];
+  updateUI();
+ }catch(e){
+  notify("Account loading failed: "+e.message);
+ }
+}
+
+// Advertisement display
+async function displayAd(){
+ if(typeof window.show_12241372!=="function"){
+  throw new Error("Advertisement is currently unavailable.");
+ }
+ await window.show_12241372();
+}
+
+// Reward verification happens on the server.
+// The server must independently validate the ad provider callback.
+async function playAd(){
+ if(busy)return;
+ if(state.ads>=DAILY_LIMIT){
+  notify("Daily advertisement limit reached.");
+  return;
+ }
+
+ busy=true;
+ $("manual-btn").disabled=true;
+ loading(true);
+
+ try{
+  await displayAd();
+
+  const result=await api("/api/reward/claim",{
+   userId,
+   provider:"monetag",
+   adZone:"12241372"
+  });
+
+  if(result.success!==true){
+   throw new Error("Reward was not verified.");
+  }
+
+  await loadAccount();
+  notify("Reward successfully verified!");
+ }catch(e){
+  notify(e.message);
+ }finally{
+  busy=false;
+  $("manual-btn").disabled=false;
+  loading(false);
+ }
+}
+
+// Auto mode: repeated sessions are subject to
+// provider rules. Do not automate impressions if prohibited.
+async function autoRun(){
+ if(!state.auto)return;
+ $("auto-status").textContent="Waiting for next session...";
+
+ await playAd();
+
+ if(state.auto){
+  autoTimer=setTimeout(autoRun,9000);
+ }
+}
+
+function startAuto(){
+ if(state.auto)return;
+ state.auto=true;
+ $("auto-status").textContent="Auto mode running";
+ $("progress-bar").style.width="30%";
+ updateUI();
+ autoRun();
+}
+
+function stopAuto(){
+ state.auto=false;
+ clearTimeout(autoTimer);
+ $("auto-status").textContent="Auto mode stopped";
+ $("progress-bar").style.width="0%";
+ updateUI();
+}
+
+// Withdraw request
+async function requestWithdraw(){
+ const method=$("withdraw-method").value;
+ const account=$("account-number").value.trim();
+ const amount=Number($("withdraw-amount").value);
+
+ if(!method)return notify("Please select a payment method.");
+ if(!account)return notify("Please enter your account number.");
+ if(!Number.isFinite(amount)||amount<MIN_WITHDRAW)
+  return notify("Minimum withdrawal is 20 BDT.");
+ if(amount>state.balance)
+  return notify("Insufficient balance.");
+ if(state.referrals<MIN_REFERRALS)
+  return notify("At least 5 referrals are required.");
+
+ const btn=$("withdraw-btn");
+ btn.disabled=true;
+ loading(true);
+
+ try{
+  const result=await api("/api/withdraw",{
+   method,account,amount
+  });
+  await loadAccount();
+  $("account-number").value="";
+  $("withdraw-amount").value="";
+  notify(result.message||"Withdrawal request submitted.");
+ }catch(e){
+  notify(e.message);
+ }finally{
+  btn.disabled=false;
+  loading(false);
+ }
+}
+
+// Referral tracking: use Telegram deep links.
+// Count referrals only after server-side validation.
+function getReferralLink(){
+ if(!telegramUser)return "";
+ return "https://t.me/YOUR_BOT_USERNAME?start="+userId;
+}
+
+if(telegramUser){
+ $("username").textContent=
+  telegramUser.first_name||telegramUser.username||"Pilot";
+}
+
+updateUI();
+loadAccount();
 </script>
-</body></html>
+</body>
+</html>
